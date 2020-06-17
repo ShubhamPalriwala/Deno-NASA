@@ -1,5 +1,5 @@
-import * as log from "https://deno.land/std/log/mod.ts"
-import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
+import * as log from "../deps.ts"
+import * as _ from "../deps.ts";
 
 
 interface Launch{
@@ -64,4 +64,21 @@ export function getOne(id:number){
         return launches.get(id);
     }
     return null
+}
+
+export function addOne(data:Launch) {
+    launches.set(data.flightNumber,Object.assign(data,{
+        upcoming:true,
+        customers:["Yes, it's you","NASA"],
+    }));
+}
+
+export function removeOne(id:number) {
+    const aborted=launches.get(id);
+    if(aborted)
+    {
+        aborted.upcoming=false;
+        aborted.success=false;
+    }
+    return aborted
 }
