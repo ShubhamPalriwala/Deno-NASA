@@ -4,12 +4,13 @@ import {parse} from "https://deno.land/std/encoding/csv.ts";
 
 import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
 
-interface Planet{
-    [key:string]: string
-}
+type  Planet=Record <string, string>
+
+let planets:Array<Planet>;
+
 
 async function loadPlanetData() {
-    const path=join(".","cumulative_2020.06.13_03.21.06.csv");
+    const path=join("data","cumulative_2020.06.13_03.21.06.csv");
     const file=await Deno.open(path);
     const bufReader=new BufReader(file);
 
@@ -36,8 +37,10 @@ async function loadPlanetData() {
     });
 }
 
-const newEarths=await loadPlanetData()
-for(const planet of newEarths){
-    console.log(planet)
+planets=await loadPlanetData()
+
+console.log(`${planets.length} habitable planets found.`)
+
+export function getAllPlanets(){
+    return planets
 }
-console.log(`${newEarths.length} habitable planets found.`)
